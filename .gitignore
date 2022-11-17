@@ -1,8 +1,1 @@
-.DS_Store
-node_modules
-dist
-dev-dist
-build
-types
-.idea
-.github
+node_modules/
