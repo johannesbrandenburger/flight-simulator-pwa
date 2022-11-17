@@ -41,3 +41,17 @@ self.addEventListener("fetch", (e) => {
         })
     );
 });
+
+/* Update a service worker */
+self.addEventListener("activate", (e) => {
+    console.log("Service Worker: Activating...");
+    e.waitUntil(
+        caches.keys().then((keyList) => {
+            return Promise.all(keyList.map((key) => {
+                if (key !== cacheName) {
+                    return caches.delete(key);
+                }
+            }));
+        })
+    );
+});
