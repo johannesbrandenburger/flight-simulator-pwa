@@ -1,14 +1,3 @@
-// @ts-check
-
-/** @type {number} */
-const distanceOfCameraFromPlane = 1.5;
-
-/** @type {number} */
-let basePlaneRotateFactor = 0.01;
-
-/** @type {number} */
-let speed = 1.5;
-
 /**
  * Initializes the flying controls
  */
@@ -81,7 +70,7 @@ function handleFlying() {
     let horizontalTurn = turnVectorAroundHorizontalAxis(planeLookAt, degToRad(headingTo.up * planeRotationFactor));
     planeLookAt = horizontalTurn.newVector;
     turnedBeyondYAxis = horizontalTurn.turnedBeyondYAxis;
-    if (turnedBeyondYAxis) { planeIsUpsideDown = !planeIsUpsideDown; console.log("turnd"); }
+    if (turnedBeyondYAxis) planeIsUpsideDown = !planeIsUpsideDown;
     planeLookAt.normalize();
 
     // set the new lookAt vector
@@ -124,7 +113,7 @@ async function createModelPlane() {
     const planeStartPoint = new THREE.Vector3(torusSpawnRadius * 0.5 + 2, 8, torusSpawnRadius * 0.5 + 2);
 
     // load the plane model
-    const modelPlane = await getMashFromBlenderModel("public/glb/low-poly_airplane.glb-low", "https://download1591.mediafire.com/1ukswzole2ag/2otcm1ju178d63g/basic_plane.glb");
+    const modelPlane = await getMeshFromBlenderModel("public/glb/low-poly_airplane.glb-low", "https://download1591.mediafire.com/1ukswzole2ag/2otcm1ju178d63g/basic_plane.glb");
     scene.add(modelPlane);
 
     /** @type { THREE.Mesh } */
@@ -139,21 +128,19 @@ async function createModelPlane() {
 
 /**
  * Calculates the speed depending on the y value of the planeLookAt vector and the previous speed
- * @param {number} speed previous speed
+ * @param {number} v0 previous speed
  * @param {*} y y value of the planeLookAt vector 1 = straight up, -1 = straight down
  */
-function calcSpeed(speed, y) {
+function calcSpeed(v0, y) {
 
-    const minSpeed = 1.5;
-    const maxSpeed = 3.5;
-    const baseSpeed = 2;
-    const yFactor = 0.1;
+    const g = 9.81;
+    const aGravity = g * -y;
+    const aThrust = 10;
+    const aAirResistance = - v0 * v0 * 0.9;
 
-    let newSpeed = speed * 0.9 + baseSpeed * 0.1;
-    newSpeed -= y * yFactor;
+    const a = aGravity + aThrust + aAirResistance;
 
-    if (newSpeed < minSpeed) newSpeed = minSpeed;
-    if (newSpeed > maxSpeed) newSpeed = maxSpeed;
+    const v1 = v0 + a * deltaTime;
 
-    return newSpeed;
+    return v1;
 }
