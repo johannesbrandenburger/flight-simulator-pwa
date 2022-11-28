@@ -155,12 +155,6 @@ function gameOver() {
     restartButton.onclick = () => {
         location.reload();
     }
-
-    // show a exit button
-    const exitButton = document.getElementById("exitButton");
-    exitButton.onclick = () => {
-        location.href = "/?redirect-from=flight-simulator";
-    }
 }
 
 
