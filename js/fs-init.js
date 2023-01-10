@@ -183,6 +183,12 @@ function showInvertedControlsDiv() {
     invertedControlsDivTimeout = setTimeout(() => {
         document.getElementById("invertedControls").style.display = "none";
     }, 3000);
+
+    // set touch click event listener
+    document.getElementById("invertedControls").ontouchstart = () => {
+        invertControls();
+    }
+
 }
 
 
