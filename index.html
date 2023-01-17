@@ -2,48 +2,46 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <title>Flight-Simulator</title>
-    <link rel="apple-touch-icon" href="images/pwa-icon-256.png" />
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="manifest" href="/manifest.json" />
-    <link rel="icon" href="images/logo-black-only-plane.ico" type="image/x-icon">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="white" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black" /> 
-    <meta name="apple-mobile-web-app-title" content="App Title" />
+  <meta charset="utf-8" />
+  <title>Flight-Simulator</title>
+  <link rel="apple-touch-icon" href="pwa-icon-256.png" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="logo-black-only-plane.ico" type="image/x-icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="white" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" /> 
+  <meta name="apple-mobile-web-app-title" content="App Title" />
 </head>
 
-<body class="fullscreen">
+<body>
+
+  <ul id="highscoreList">
+  </ul>
+
+  <button id="startButton">Start</button>
+
+  <div id="gameContainer">
+
     <div id="loading">Loading...</div>
     <div id="score">Score: 0</div>
     <div id="time">Time left: 60</div>
     <div id="outOfBounds">Don't fly out of bounds!</div>
     <div id="invertedControls" style="display: none;"></div>
     <div class="gameOverScreen" id="gameOverScreen">
-        <div class="gameOverContent">
-            <div class="gameOverDiv" id="gameOverDiv">
-            </div>
-            <div class="controlPanel">
-                <button class="restartButton" id="restartButton">
-                    Restart
-                </button>
-            </div>
+      <div class="gameOverContent">
+        <div class="gameOverDiv" id="gameOverDiv">
         </div>
+        <div class="controlPanel">
+          <button class="restartButton" id="restartButton">
+            Restart
+          </button>
+        </div>
+      </div>
     </div>
-    <script src="js/main.js"></script>
-    <script src="public/threejs/three.js"></script>
-    <script src="public/threejs/extra-utils/loaders/GLTFLoader.js"></script>
-    <script src="public/threejs/extra-utils/objects/Water.js"></script>
-    <script src="public/threejs/extra-utils/objects/Sky.js"></script>
-    <script src="public/threejs/extra-utils/libs/stats.min.js"></script>
-    <script src="js/helpers.js"></script>
-    <script src="js/fs-fly.js"></script>
-    <script src="js/fs-place-objects.js"></script>
-    <script src="js/fs-animate.js"></script>
-    <script src="js/fs-init.js"></script>
-    <script src="js/fs-main.js"></script>
+
+    <script type="module" src="/main.js"></script>
 </body>
 
 </html>

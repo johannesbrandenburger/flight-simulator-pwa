@@ -3,14 +3,15 @@
     "short_name": "Flight Simulator",
     "icons": [
         {
-            "src": "/images/pwa-icon-256.png",
+            "src": "/pwa-icon-256.png",
             "sizes": "256x256",
             "type": "image/png"
         },
         {
-            "src": "/images/pwa-icon-256.png",
+            "src": "/pwa-icon-256.png",
             "sizes": "512x512",
-            "type": "image/png"
+            "type": "image/png",
+            "purpose": "any maskable"
         }
     ],
     "lang": "en-US",

@@ -1,15 +1,18 @@
 {
-    "name": "flight-simulator-pwa",
-    "version": "1.0.0",
-    "description": "flight-simulator-pwa",
-    "main": "index.html",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "serve": "serve ."
-    },
-    "author": "Mohammed Modi",
-    "license": "ISC",
-    "dependencies": {
-        "serve": "^11.3.2"
-    }
+  "name": "flight-simulator-pwa-vite",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^4.0.0"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.4.0",
+    "three": "^0.148.0"
+  }
 }

@@ -1,24 +1,13 @@
 let cacheName = "flight-simulator-pwa";
 let filesToCache = ["/",
     "/index.html",
-    "/css/style.css",
-    "/js/main.js",
-    "/js/fs-init.js",
-    "/js/fs-fly.js",
-    "/js/fs-animate.js",
-    "/js/fs-main.js",
-    "/js/fs-place-objects.js",
-    "/js/helpers.js",
+    "/main.js",
+    "/style.css",
     "/manifest.json",
-    "/images/logo-black-only-plane.ico",
-    "/images/pwa-icon-256.png",
-    "/public/threejs/three.js",
-    "/public/threejs/extra-utils/loaders/GLTFLoader.js",
-    "/public/threejs/extra-utils/objects/Water.js",
-    "/public/threejs/extra-utils/objects/Sky.js",
-    "/public/threejs/extra-utils/libs/stats.min.js",
-    "/public/textures/waternormals.jpg",
-    "/public/glb/low-poly_airplane.glb-low"
+    "/pwa-icon-256.png",
+    "/logo-black-only-plane.ico",
+    "/node_modules/*",
+    "/*",
 ];
 
 
