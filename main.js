@@ -85,6 +85,7 @@ document.getElementById("startButton").addEventListener("click", () => {
   document.getElementById("startButton").style.display = "none";
   document.getElementById("startButton").removeEventListener("click", () => { });
   document.getElementById("highscoreList").style.display = "none";
+  document.getElementById("preGame").style.display = "none";
   init().then(() => {
     animate();
   });
