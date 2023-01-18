@@ -1,10 +1,12 @@
 let cacheName = "flight-simulator-pwa";
 let filesToCache = ["/",
     "/index.html",
+    "/main.js",
+    "/style.css",
     "/manifest.json",
     "/pwa-icon-256.png",
     "/logo-black-only-plane.ico",
-    "/assets*",
+    "/node_modules/*",
     "/*",
 ];
 
