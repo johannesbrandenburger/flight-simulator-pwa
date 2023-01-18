@@ -490,7 +490,6 @@ async function initFlying() {
       touchStartY = event.touches[0].clientY;
     });
     window.addEventListener("touchmove", event => {
-      event.preventDefault();
       touchEndX = event.touches[0].clientX;
       touchEndY = event.touches[0].clientY;
       headingTo.right = invertedControls ? (touchEndX - touchStartX) * 1 : -(touchEndX - touchStartX) * 1;
