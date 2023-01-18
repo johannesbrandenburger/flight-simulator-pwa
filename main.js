@@ -12,7 +12,6 @@ import * as THREE from 'three'
 import { Sky } from 'three/examples/jsm/objects/Sky.js'
 import { Water } from 'three/examples/jsm/objects/Water.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
-
 import { createClient } from '@supabase/supabase-js'
 
 const supabaseUrl = "https://kstijikahvlsvqgryowq.supabase.co"
