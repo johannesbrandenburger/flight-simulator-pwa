@@ -909,7 +909,7 @@ async function loadHighscoreList() {
     .from('plays-public')
     .select('*')
     .order('score', { ascending: false })
-    .limit(10)
+    .limit(20)
 
   if (error) {
     console.log(error)
