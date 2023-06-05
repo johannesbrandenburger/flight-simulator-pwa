@@ -174,7 +174,8 @@ function invertControls() {
 function showInvertedControlsDiv() {
     const textIfTrue = "Inverted Controls: On <br/> The airplane will follow your mouse cursor. <br/> This setting is saved in your browser and can be toggled by pressing 'I'.";
     const textIfFalse = "Inverted Controls: Off <br/> The control direction is realisitc like in a real airplane. <br/> This setting is saved in your browser and can be toggled by pressing 'I'.";
-    document.getElementById("invertedControls").innerHTML = invertedControls ? textIfTrue : textIfFalse;
+    const impressum = '<br/><a href="https://impressum.brandenburger.dev/">Impressum</a>'
+    document.getElementById("invertedControls").innerHTML = (invertedControls ? textIfTrue : textIfFalse) + impressum;
     document.getElementById("invertedControls").style.display = "block";
     if (invertedControlsDivTimeout != null) {
         clearTimeout(invertedControlsDivTimeout);
