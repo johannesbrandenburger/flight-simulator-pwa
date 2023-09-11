@@ -17,8 +17,7 @@ async function animate() {
   handleTime();
 
   // if gamepad is connected, reload on button press
-  console.log(navigator.getGamepads()[0].buttons);
-  if (navigator.getGamepads()[0] && navigator.getGamepads()[0].buttons[1].pressed) {
+  if (navigator.getGamepads()[0] && navigator.getGamepads()[0]?.buttons[2]?.pressed) {
     location.reload();
   }
 
