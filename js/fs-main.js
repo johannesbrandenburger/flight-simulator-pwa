@@ -23,7 +23,8 @@ var container,
     planeIsUpsideDown = false,
     invertedControlsDivTimeout = null,
     isGameOver = false,
-    speed = 0;
+    speed = 0,
+    isGamepadConnected = false;
 
 // global constants
 const torusScale = 0.2;

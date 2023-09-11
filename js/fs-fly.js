@@ -64,6 +64,30 @@ function handleFlying() {
         planeRotationFactor = -basePlaneRotateFactor;
     }
 
+    // check if the headingTo values should be overriden by gamepad values
+    if (navigator.getGamepads()[0]) {
+        let gamepad = navigator.getGamepads()[0];
+
+        let mappingFunction = (gamepadValue) => {
+            return (gamepadValue ** 4) * 100;
+        };
+        const deadzone = 0.2;
+        if (gamepad.axes[0] > deadzone || gamepad.axes[0] < -deadzone) {
+            headingTo.right = mappingFunction(gamepad.axes[0]);
+        } else {
+            headingTo.right = 0;
+        }
+        if (gamepad.axes[1] > deadzone || gamepad.axes[1] < -deadzone) {
+            headingTo.up = mappingFunction(gamepad.axes[1]);
+        } else {
+            headingTo.up = 0;
+        }
+            
+        if (gamepad.buttons[0].pressed) {
+            speed += 10;
+        }
+    }
+
     // manipulate the lookAt vector by the headingTo values
     let turnedBeyondYAxis = false;
     planeLookAt = turnVectorAroundVerticalAxis(planeLookAt, degToRad(headingTo.right * - planeRotationFactor));
