@@ -21,6 +21,16 @@ async function animate() {
     location.reload();
   }
 
+  // if gamepad is connected, pause on button press
+  if (navigator.getGamepads()[0] && navigator.getGamepads()[0]?.buttons[1]?.pressed && !hasRecentlyPaused) {
+    hasRecentlyPaused = true;
+    setTimeout(() => {
+      hasRecentlyPaused = false;
+    }, 300);
+    console.log("pause");
+    pauseGame();
+  }
+
   water.material.uniforms['time'].value += 0.05 * deltaTime;
   renderer.render(scene, camera);
 }

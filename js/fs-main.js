@@ -24,7 +24,9 @@ var container,
     invertedControlsDivTimeout = null,
     isGameOver = false,
     speed = 0,
-    isGamepadConnected = false;
+    isGamepadConnected = false,
+    hasRecentlyPaused = false
+    ;
 
 // global constants
 const torusScale = 0.2;

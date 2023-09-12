@@ -236,17 +236,21 @@ function initDevControls() {
             case "P":
 
                 // pause the game
-                if (isGameOver) break;
-                if (isFlying) {
-                    isFlying = false;
-                    document.getElementById("time").innerHTML = "Paused";
-                } else {
-                    isFlying = true;
-                }
+                pauseGame();
 
                 break;
 
         }
     });
 
+}
+
+function pauseGame() {
+    if (isGameOver) return;
+    if (isFlying) {
+        isFlying = false;
+        document.getElementById("time").innerHTML = "Paused";
+    } else {
+        isFlying = true;
+    }
 }

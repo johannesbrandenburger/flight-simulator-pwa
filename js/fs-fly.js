@@ -69,7 +69,8 @@ function handleFlying() {
         let gamepad = navigator.getGamepads()[0];
 
         let mappingFunction = (gamepadValue) => {
-            return (gamepadValue ** 3) * 100;
+            if (gamepadValue > 0) return ((gamepadValue + 0.1) ** 5) * 100;
+            if (gamepadValue < 0) return ((gamepadValue - 0.1) ** 5) * 100;
         };
         const deadzone = 0.2;
         if (gamepad.axes[0] > deadzone || gamepad.axes[0] < -deadzone) {

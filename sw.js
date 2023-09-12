@@ -35,9 +35,31 @@ self.addEventListener("install", (e) => {
 /* Serve cached content when offline */
 self.addEventListener("fetch", (e) => {
     console.log("Service Worker: Fetching...");
+
+    // check if the request is for a file in the js folder (if so, don't use the cache)
+    if (e.request.url.indexOf("/js/") > -1) {
+        e.respondWith(
+            fetch(e.request).catch(() => {
+                console.log("Service Worker: Offline");
+                return caches.match(e.request);
+            }).then((response) => {
+                console.log("Service Worker: Online");
+                if (response) return response;
+                return fetch(e.request);
+            })
+        );
+        return;
+    }
+
+    // otherwise, use the cache
     e.respondWith(
         caches.match(e.request).then((response) => {
-            return response || fetch(e.request);
+            if (response) {
+                console.log("Service Worker: Found in cache");
+                return response;
+            }
+            console.log("Service Worker: Not found in cache, fetching...", e.request.url);
+            return fetch(e.request);
         })
     );
 });
