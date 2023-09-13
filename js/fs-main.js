@@ -25,7 +25,19 @@ var container,
     isGameOver = false,
     speed = 0,
     isGamepadConnected = false,
-    hasRecentlyPaused = false
+    hasRecentlyPaused = false,
+    isDemoMode = false,
+    demoModeValues = {
+        currentIndex: 0,
+        values: [
+            { right: 20, up: 0 },
+            { right: -30, up: 0 },
+            { right: -30, up: 0 },
+            { right: -30, up: 0 },
+            { right: 20, up: 0 },
+        ],
+        repetitions: 0
+    }
     ;
 
 // global constants

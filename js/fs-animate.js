@@ -10,11 +10,14 @@ async function animate() {
 
   if (isFlying) {
     handleFlying();
-    handleScore();
-    handleObstacleCollision();
+    if (!isDemoMode) {
+      handleScore();
+      handleObstacleCollision();
+    }
     handlePlaneOutOfBounds();
   }
-  handleTime();
+  if (!isDemoMode)
+    handleTime();
 
   // if gamepad is connected, reload on button press
   if (navigator.getGamepads()[0] && navigator.getGamepads()[0]?.buttons[2]?.pressed) {

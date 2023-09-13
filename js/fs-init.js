@@ -240,6 +240,14 @@ function initDevControls() {
 
                 break;
 
+            case "r":
+            case "R":
+
+                // toggle demo mode
+                isDemoMode = !isDemoMode;
+
+                break;
+
         }
     });
 
