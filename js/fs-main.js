@@ -27,7 +27,6 @@ var container,
     isGamepadConnected = false,
     hasRecentlyPaused = false,
     isDemoMode = false,
-    hasRecentlyStartedDemoMode = false,
     demoModeValues = {
         currentIndex: 0,
         values: [

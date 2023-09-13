@@ -91,7 +91,9 @@ function handleFlying() {
 
     // if demoMode is enabled, set the headingTo values to the demoMode values
     if (isDemoMode) {
-        headingTo = demoModeValues.values[demoModeValues.currentIndex];
+        console.log("overwriting headingTo values");
+        headingTo.right = demoModeValues.values[demoModeValues.currentIndex].right;
+        headingTo.up = demoModeValues.values[demoModeValues.currentIndex].up;
         if (demoModeValues.repetitions > 200) {
             demoModeValues.currentIndex++;
             demoModeValues.repetitions = 0;
@@ -102,7 +104,7 @@ function handleFlying() {
         }
     }
 
-    console.log(headingTo);
+    console.log(headingTo, isDemoMode);
 
     // manipulate the lookAt vector by the headingTo values
     let turnedBeyondYAxis = false;

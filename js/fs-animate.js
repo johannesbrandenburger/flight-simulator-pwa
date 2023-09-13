@@ -36,12 +36,7 @@ async function animate() {
 
   // if gamepad is connected, demo mode on button press
   if (navigator.getGamepads()[0] && navigator.getGamepads()[0]?.buttons[3]?.pressed) {
-    hasRecentlyStartedDemoMode = true;
-    setTimeout(() => {
-      hasRecentlyStartedDemoMode = false;
-    }, 300);
-    console.log("pause");
-    isDemoMode = !isDemoMode;
+    isDemoMode = true;
   }
 
   water.material.uniforms['time'].value += 0.05 * deltaTime;
