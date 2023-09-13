@@ -85,7 +85,7 @@ function handleFlying() {
         }
             
         if (gamepad.buttons[0].pressed) {
-            speed += 10;
+            speed += 4;
         }
     }
 
