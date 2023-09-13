@@ -34,7 +34,8 @@ var container,
             { right: -30, up: 0 },
             { right: -30, up: 0 },
             { right: -30, up: 0 },
-            { right: 20, up: 0 },
+            { right: -30, up: 0 },	
+            { right: -30, up: 0 },
         ],
         repetitions: 0
     }
