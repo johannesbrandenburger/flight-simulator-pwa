@@ -21,10 +21,15 @@ function placeTorusObjects() {
         scene.add(torus);
         torus.name = "torus";
 
+        // chech if torus is horizontal
+        const isHorizontal = torus.rotation.x !== 0 || torus.rotation.z !== 0 || torus.rotation.y !== 0;
+        torus.customFields = { isHorizontal: isHorizontal };
+
         // if torus is in the extra torus amount, make it gold and name it "extraTorus"
         if (i >= torusAmount) {
             torus.material.color.setHex(0xffd700);
             torus.name = "extraTorus";
+            torus.customField
         }
 
         // check if torus intersects with another torus

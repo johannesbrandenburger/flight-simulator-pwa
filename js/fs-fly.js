@@ -83,7 +83,7 @@ function handleFlying() {
         } else {
             headingTo.up = 0;
         }
-            
+
         if (gamepad.buttons[0].pressed) {
             speed += 4;
         }
@@ -91,7 +91,8 @@ function handleFlying() {
 
     // if demoMode is enabled, set the headingTo values to the demoMode values
     if (isDemoMode) {
-        console.log("overwriting headingTo values");
+
+        // old demo mode (simple)
         headingTo.right = demoModeValues.values[demoModeValues.currentIndex].right;
         headingTo.up = demoModeValues.values[demoModeValues.currentIndex].up;
         if (demoModeValues.repetitions > 200) {
@@ -102,9 +103,166 @@ function handleFlying() {
         if (demoModeValues.currentIndex >= demoModeValues.values.length) {
             demoModeValues.currentIndex = 0;
         }
-    }
 
-    console.log(headingTo, isDemoMode);
+        // new demo mode (intelligent - fly trough the nearest torus)
+
+        const frustumIntersect = (() => {
+            const p = new THREE.Vector3()
+
+            return (frustum, box, smaller = 3) => {
+                const planes = frustum.planes
+
+                for (let i = 0; i < 6; i++) {
+
+                    const plane = planes[i]
+
+                    p.x = plane.normal.x > 0 ? box.max.x : box.min.x
+                    p.y = plane.normal.y > 0 ? box.max.y : box.min.y
+                    p.z = plane.normal.z > 0 ? box.max.z : box.min.z
+
+                    if (plane.distanceToPoint(p) < 0 + smaller) {
+                        return false
+                    }
+                }
+
+                return true
+            }
+        })()
+
+        let stabilizedHeadingTo = () => {
+            // bring the y value to 0
+            let currentY = planeLookAt.clone().y;
+            console.log(currentY);
+            return { right: 0, up: currentY * - 100 };
+        }
+
+        // get the nearest torus which is in front of the plane
+        let nearestTorus = null;
+
+        if (!currentChaseTorus) {
+            for (let i = 0; i < scene.children.length; i++) {
+                if (scene.children[i].name !== "torus" && scene.children[i].name !== "extraTorus") continue;
+                // if (scene.children[i].customFields?.isHorizontal) continue;
+                // check if the torus is in sight of the camera
+                const torus = scene.children[i];
+                const torusPosition = torus.position.clone();
+                let frustum = new THREE.Frustum();
+                frustum.setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse));
+    
+                if (!frustumIntersect(frustum, new THREE.Box3().setFromObject(torus))) continue;
+    
+                // get nearest torus
+                if (!nearestTorus) {
+                    nearestTorus = torus;
+                } else {
+                    const distanceToTorus = torus.position.distanceTo(sceneObjects.modelPlane.position);
+                    const distanceToNearestTorus = nearestTorus.position.distanceTo(sceneObjects.modelPlane.position);
+                    if (distanceToTorus < distanceToNearestTorus) {
+                        nearestTorus = torus;
+                    }
+                }
+            }
+    
+            // if there is no torus in sight, do nothing
+            if (!nearestTorus) headingTo = stabilizedHeadingTo();
+    
+            // if the nearest torus is nearer than 10, do nothing
+            if (nearestTorus?.position.distanceTo(sceneObjects.modelPlane.position) < 0.3) {
+                headingTo = stabilizedHeadingTo();
+                nearestTorus = null;
+            }
+    
+            // if the nearest torus is the one which should be aborted, do nothing
+            if (nearestTorus === abortThisTorusChase) {
+                headingTo = stabilizedHeadingTo();
+                nearestTorus = null;
+            }
+    
+            // if there is a nearest torus change color to blue with a timeout of 0.1 seconds
+            if (nearestTorus) {
+                const previousColor = nearestTorus.material.color.getHex();
+                nearestTorus.material.color.setHex(0x0000ff);
+                setTimeout(() => {
+                    nearestTorus.material.color.setHex(previousColor);
+                }, 100);
+    
+                currentChaseTorus = nearestTorus;
+                setTimeout(() => {
+                    currentChaseTorus = null;
+                }, 5000);
+            }
+}
+
+
+        // if there is a torus in sight, fly towards it
+        if (currentChaseTorus) {
+            automatedFlight = () => {
+
+                let torusPosition = currentChaseTorus.position.clone();
+                torusPosition.y = sceneObjects.modelPlane.position.y;
+                let vectorToTorus = torusPosition.sub(sceneObjects.modelPlane.position);
+                vectorToTorus.normalize();
+
+                // // display the vector
+                // for (let i = 0; i < scene.children.length; i++) { if (scene.children[i].name === "vectorToTorus") scene.remove(scene.children[i]) }
+                // let vectorToTorusArrow = new THREE.ArrowHelper(vectorToTorus, sceneObjects.modelPlane.position, 10, 0xff0000);
+                // vectorToTorusArrow.name = "vectorToTorus";
+                // scene.add(vectorToTorusArrow);
+
+                // calculate the angle between planeLookAt and vectorToTorus
+                let planeLookAtClone = planeLookAt.clone();
+                planeLookAtClone.y = 0;
+                let angleToTorusXZ = planeLookAtClone.angleTo(vectorToTorus);
+                if (planeLookAtClone.x > vectorToTorus.x) angleToTorusXZ *= -1;
+                angleToTorusXZ = THREE.MathUtils.radToDeg(angleToTorusXZ);
+
+                console.log(`angleToTorusXZ: ${angleToTorusXZ.toFixed(2)}`);
+                if (angleToTorusXZ > 90 || angleToTorusXZ < -90) {
+                    abortThisTorusChase = currentChaseTorus
+                    headingTo = stabilizedHeadingTo();
+                    return;
+                }
+
+                headingTo = { right: angleToTorusXZ * 2, up: 0 };
+
+                // now for y (up/down)
+                planeLookAtClone = planeLookAt.clone();
+                torusPosition = currentChaseTorus.position.clone();
+                vectorToTorus = torusPosition.sub(sceneObjects.modelPlane.position);
+                vectorToTorus.x = planeLookAtClone.x;
+                vectorToTorus.z = planeLookAtClone.z;
+                vectorToTorus.normalize();
+
+                // // display the vector
+                // for (let i = 0; i < scene.children.length; i++) { if (scene.children[i].name === "vectorToTorus") scene.remove(scene.children[i]) }
+                // vectorToTorusArrow = new THREE.ArrowHelper(vectorToTorus, sceneObjects.modelPlane.position, 10, 0x00ff00);
+                // vectorToTorusArrow.name = "vectorToTorus";
+                // scene.add(vectorToTorusArrow);
+
+                // calculate the angle between planeLookAt and vectorToTorus
+                let angleToTorusY = planeLookAt.angleTo(vectorToTorus);
+                if (planeLookAt.y > vectorToTorus.y) angleToTorusY *= -1;
+                angleToTorusY = THREE.MathUtils.radToDeg(angleToTorusY);
+                
+                console.log(`angleToTorusY: ${angleToTorusY.toFixed(2)}`);
+
+                if (angleToTorusY > 90 || angleToTorusY < -90) {
+                    abortThisTorusChase = currentChaseTorus
+                    headingTo = stabilizedHeadingTo();
+                    return;
+                }
+
+                headingTo.up = angleToTorusY * 1.8;
+
+                if (planeLookAt.y > 0.9 || planeLookAt.y < -0.9) {
+                    abortThisTorusChase = currentChaseTorus
+                    headingTo = stabilizedHeadingTo();
+                    return;
+                }
+
+            }; automatedFlight();
+        }
+    }
 
     // manipulate the lookAt vector by the headingTo values
     let turnedBeyondYAxis = false;

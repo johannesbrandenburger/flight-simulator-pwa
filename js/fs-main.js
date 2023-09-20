@@ -26,7 +26,7 @@ var container,
     speed = 0,
     isGamepadConnected = false,
     hasRecentlyPaused = false,
-    isDemoMode = false,
+    isDemoMode = true,
     demoModeValues = {
         currentIndex: 0,
         values: [
@@ -34,11 +34,13 @@ var container,
             { right: -30, up: 0 },
             { right: -30, up: 0 },
             { right: -30, up: 0 },
-            { right: -30, up: 0 },	
+            { right: -30, up: 0 },
             { right: -30, up: 0 },
         ],
         repetitions: 0
-    }
+    },
+    abortThisTorusChase = null,
+    currentChaseTorus = null
     ;
 
 // global constants
