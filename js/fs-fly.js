@@ -65,8 +65,8 @@ function handleFlying() {
     }
 
     // check if the headingTo values should be overriden by gamepad values
-    if (navigator.getGamepads()[0]) {
-        let gamepad = navigator.getGamepads()[0];
+    if (navigator.getGamepads()[0] || navigator.getGamepads()[1] || navigator.getGamepads()[2] || navigator.getGamepads()[3]) {
+        let gamepad = navigator.getGamepads()[0] || navigator.getGamepads()[1] || navigator.getGamepads()[2] || navigator.getGamepads()[3];
 
         let mappingFunction = (gamepadValue) => {
             if (gamepadValue > 0) return ((gamepadValue + 0.1) ** 5) * 100;
