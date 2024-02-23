@@ -20,3 +20,7 @@ Flight Simulator as installable PWA: [flight-simulator.brandenburger.dev](https:
 | I   | Invert Controls |
 | F   | Exit Flight Simulator and Return to Flight School Scene |
 | J   | Toggle FPS Display Visibility |
+
+## Credits
+
+'Low Poly Plane' by sketchfab user 'scailman' (https://sketchfab.com/scailman): https://sketchfab.com/3d-models/low-poly-plane-76230052903540e9aeb46b7db35329e4
